@@ -87,10 +87,27 @@ namespace CreatorApplication.DAL
         }
         public async Task<bool> Delete(int id)
         {
-            Recipe entity = _appDbContext.Recipes.FirstOrDefault(x => x.Id == id);
-            //delete recipeingredients list
-            //delete ingredientslist
+
+            Recipe entity = _appDbContext.Recipes.Include(i => i.RecipeIngredients)
+                                                 .ThenInclude(ti => ti.IngredientsList)
+                                                 .ThenInclude(ti => ti.Ingredient)
+                                                 .FirstOrDefault(x => x.Id == id);
+
+            //find recipeingredientslist id
+            RecipeIngredientsList recipeIngredientsList = _appDbContext.RecipeIngredientsLists
+                                                                       .FirstOrDefault(x => x.Id == entity.RecipeIngredientsListId);
+
+            //find ingredientlist Id
+            var ilids = _appDbContext.IngredientsLists
+                                    .Where(x => x.RecipeIngredientsListId.Equals(recipeIngredientsList.Id));
+
+            foreach (var entry in ilids)
+            {
+                _appDbContext.IngredientsLists.Remove(entry);
+            }
             _appDbContext.Recipes.Remove(entity);
+            _appDbContext.RecipeIngredientsLists.Remove(recipeIngredientsList);
+
             int deleted = await _appDbContext.SaveChangesAsync();
             return deleted > 0;
         }
