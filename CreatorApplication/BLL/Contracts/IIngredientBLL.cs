@@ -2,7 +2,7 @@
 
 namespace CreatorApplication.BLL.Contracts
 {
-    public interface IIngredientBLL : IBLL<IngredientVm, IngredientUpdateVm>
+    public interface IIngredientBLL : IBaseBLL<IngredientVm, IngredientUpdateVm, IngredientVm>
     {
     }
 }

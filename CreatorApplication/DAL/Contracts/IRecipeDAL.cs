@@ -7,12 +7,7 @@ using System.Threading.Tasks;
 
 namespace CreatorApplication.DAL.Contracts
 {
-    public interface IRecipeDAL
+    public interface IRecipeDAL: IBaseDAL<RecipeVm, RecipeUpdateVm, RecipeAddVm>
     {
-        public Task<int> Add(RecipeAddVm t);
-        public Task<List<RecipeVm>> GetAll();
-        public Task<RecipeVm> GetById(int id);
-        public Task<bool> Delete(int id);
-        public Task<bool> Update(RecipeUpdateVm recipeUpdateVm);
     }
 }
