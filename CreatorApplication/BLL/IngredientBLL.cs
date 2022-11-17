@@ -12,12 +12,12 @@ namespace CreatorApplication.BLL
     public class IngredientBLL : IIngredientBLL
     {
         private IIngredientDAL _ingredientDAL = null;
-
-        public IngredientBLL(IIngredientDAL ingredientDAL)
+        public IngredientBLL(IBaseDAL<IngredientVm, IngredientUpdateVm, IngredientVm> ingredientDAL) 
         {
-            _ingredientDAL = ingredientDAL ?? throw new ArgumentNullException(nameof(ingredientDAL));
-
+            _ingredientDAL = (IIngredientDAL)(ingredientDAL ?? throw new ArgumentNullException(nameof(ingredientDAL)));
         }
+
+
         public async Task<int> Add(IngredientVm ingredientAddVm) => await _ingredientDAL.Add(ingredientAddVm);
         public async Task<bool> Delete(int id) => await _ingredientDAL.Delete(id);
         public async Task<bool> Update(IngredientUpdateVm ingredientUpdateVm) => await _ingredientDAL.Update(ingredientUpdateVm);

@@ -33,10 +33,6 @@ namespace CreatorApplication
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<IIngredientBLL, IngredientBLL>();
-            services.AddScoped<IIngredientDAL, IngredientDAL>();
-            //services.AddScoped<IRecipeBLL, RecipeBLL>();
-            services.AddScoped<IRecipeDAL, RecipeDAL>();
             services.AddScoped<IBaseBLL<RecipeVm, RecipeUpdateVm, RecipeAddVm>, RecipeBLL>();
             services.AddScoped<IBaseDAL<RecipeVm, RecipeUpdateVm, RecipeAddVm>, RecipeDAL>();
             services.AddScoped<IBaseBLL<IngredientVm, IngredientUpdateVm, IngredientVm>, IngredientBLL>();

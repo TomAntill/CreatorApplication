@@ -13,10 +13,9 @@ namespace CreatorApplication.BLL
     {
         private IRecipeDAL _recipeDAL = null;
 
-        public RecipeBLL(IRecipeDAL recipetDAL)
+        public RecipeBLL(IBaseDAL<RecipeVm, RecipeUpdateVm, RecipeAddVm> recipeDAL)
         {
-            _recipeDAL = recipetDAL ?? throw new ArgumentNullException(nameof(recipetDAL));
-
+            _recipeDAL = (IRecipeDAL)(recipeDAL ?? throw new ArgumentNullException(nameof(recipeDAL)));
         }
         public async Task<int> Add(RecipeAddVm recipeAddVm) => await _recipeDAL.Add(recipeAddVm);
         public async Task<List<RecipeVm>> GetAllAsync() => await _recipeDAL.GetAll();
