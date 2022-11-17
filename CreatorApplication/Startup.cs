@@ -3,6 +3,7 @@ using CreatorApplication.BLL.Contracts;
 using CreatorApplication.DAL;
 using CreatorApplication.DAL.Contracts;
 using CreatorApplication.Data.DataModels;
+using CreatorApplication.ViewModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,8 +35,12 @@ namespace CreatorApplication
 
             services.AddScoped<IIngredientBLL, IngredientBLL>();
             services.AddScoped<IIngredientDAL, IngredientDAL>();
-            services.AddScoped<IRecipeBLL, RecipeBLL>();
+            //services.AddScoped<IRecipeBLL, RecipeBLL>();
             services.AddScoped<IRecipeDAL, RecipeDAL>();
+            services.AddScoped<IBaseBLL<RecipeVm, RecipeUpdateVm, RecipeAddVm>, RecipeBLL>();
+            services.AddScoped<IBaseDAL<RecipeVm, RecipeUpdateVm, RecipeAddVm>, RecipeDAL>();
+            services.AddScoped<IBaseBLL<IngredientVm, IngredientUpdateVm, IngredientVm>, IngredientBLL>();
+            services.AddScoped<IBaseDAL<IngredientVm, IngredientUpdateVm, IngredientVm>, IngredientDAL>();
 
             services.AddControllersWithViews();
         }

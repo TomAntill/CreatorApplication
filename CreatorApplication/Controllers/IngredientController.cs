@@ -9,49 +9,13 @@ using System.Threading.Tasks;
 namespace CreatorApplication.Controllers
 {
     [Route("api/ingredient")]
-    [ApiController]
-    public class IngredientController : Controller
+    public class IngredientController : BaseController<IngredientVm, IngredientVm, IngredientUpdateVm>
     {
-        private IIngredientBLL _ingredientBLL = null;
+        private IIngredientBLL _BLL = null;
 
-        public IngredientController(IIngredientBLL ingredientBLL)
+        public IngredientController(IBaseBLL<IngredientVm, IngredientUpdateVm, IngredientVm> bll) : base(bll)
         {
-            _ingredientBLL = ingredientBLL ?? throw new ArgumentNullException(nameof(ingredientBLL));
-        }
-
-        [HttpGet]
-        [Route("GetAll")]
-        public async Task<List<IngredientVm>> GetAll()
-        {
-            return await _ingredientBLL.GetAllAsync();
-        }
-        
-        [HttpPost]
-        [Route("Add")]
-        public async Task<int> Add(IngredientVm ingredientAddVm)
-        {
-            return await _ingredientBLL.Add(ingredientAddVm);
-        }
-
-        [HttpPost]
-        [Route("Update")]
-        public async Task<bool> Update([FromBody] IngredientUpdateVm ingredient)
-        {
-            return await _ingredientBLL.Update(ingredient);
-        }
-
-        [HttpDelete]
-        [Route("Delete")]
-        public async Task<bool> Delete(int id)
-        {
-            return await _ingredientBLL.Delete(id);
-        }
-
-        [HttpGet]
-        [Route("GetById")]
-        public async Task<IngredientVm> GetById(int id)
-        {
-            return await _ingredientBLL.GetByIdAsync(id);
+            _BLL = (IIngredientBLL)(bll ?? throw new ArgumentNullException(nameof(bll)));
         }
     }
 }

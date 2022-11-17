@@ -16,7 +16,6 @@ namespace CreatorApplication.DAL
         public RecipeDAL(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext ?? throw new ArgumentNullException(nameof(appDbContext));
-
         }
         public async Task<int> Add(RecipeAddVm recipeAddVm)
         {
