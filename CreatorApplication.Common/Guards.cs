@@ -14,7 +14,6 @@ namespace CreatorApplication.Common
                 throw new EntityNotFoundException(lookUpId.HasValue ? $"No entity of type {typeof(T).Name} found for id {lookUpId.Value}"
                     : $"No entity of type {typeof(T).Name} found");
         }
-
         public static void EntityLength(string entity, int length)
         {
             if (entity.Length < length)
