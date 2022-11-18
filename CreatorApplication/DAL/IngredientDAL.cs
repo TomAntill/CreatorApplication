@@ -16,7 +16,6 @@ namespace CreatorApplication.DAL
         public IngredientDAL(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext ?? throw new ArgumentNullException(nameof(appDbContext));
-
         }
         public async Task<int> Add(IngredientVm ingredientVm)
         {
@@ -24,33 +23,32 @@ namespace CreatorApplication.DAL
             {
                 IngredientName = ingredientVm.IngredientName,
             };
-
             _appDbContext.Ingredients.Add(ingredient);
+            Common.Guards.EntityIsNotNull<IngredientVm>(ingredientVm, ingredient.Id);
             await _appDbContext.SaveChangesAsync();
             return ingredient.Id;
         }
         public async Task<bool> Delete(int id)
         {
             Ingredient entity = _appDbContext.Ingredients.FirstOrDefault(x => x.Id == id);
-
+            Common.Guards.EntityIsNotNull<Ingredient>(entity, id);
             _appDbContext.Ingredients.Remove(entity);
             int deleted = await _appDbContext.SaveChangesAsync();
             return deleted > 0;
         }
         public async Task<bool> Update(IngredientUpdateVm ingredientUpdateVm)
         {
-
             Ingredient entity = await _appDbContext.Ingredients.FirstOrDefaultAsync(x => x.Id == ingredientUpdateVm.Id);
+            Common.Guards.EntityIsNotNull<IngredientUpdateVm>(entity, ingredientUpdateVm.Id);
 
             entity.IngredientName = ingredientUpdateVm.IngredientName;
-
             int updated = await _appDbContext.SaveChangesAsync();
             return updated > 0;
-
         }
         public async Task<IngredientVm> GetById(int id)
         {
             Ingredient entity = await _appDbContext.Ingredients.FirstOrDefaultAsync(x => x.Id == id);
+            Common.Guards.EntityIsNotNull<IngredientVm>(entity, id);
 
             IngredientVm itemVm = new IngredientVm()
             {

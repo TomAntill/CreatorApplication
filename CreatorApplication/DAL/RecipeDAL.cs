@@ -1,4 +1,5 @@
-﻿using CreatorApplication.DAL.Contracts;
+﻿using CreatorApplication.Common;
+using CreatorApplication.DAL.Contracts;
 using CreatorApplication.Data.DataModels;
 using CreatorApplication.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,8 @@ namespace CreatorApplication.DAL
         }
         public async Task<int> Add(RecipeAddVm recipeAddVm)
         {
+            Guards.IngredientListNotEmpty<RecipeIngredientsAddVm>(recipeAddVm.Ingredients);
+
             RecipeIngredientsList recipeIngredientsList = new RecipeIngredientsList() { };
             _appDbContext.RecipeIngredientsLists.Add(recipeIngredientsList);
             _appDbContext.SaveChanges();
@@ -29,6 +32,8 @@ namespace CreatorApplication.DAL
                 Method = recipeAddVm.Method,
                 RecipeIngredientsListId = recipeIngredientsList.Id,
             };
+            Guards.EntityIsNotNull<RecipeAddVm>(recipeAddVm, recipe.Id);
+
             _appDbContext.Recipes.Add(recipe);
 
             foreach (var ingred in recipeAddVm.Ingredients)
@@ -73,7 +78,9 @@ namespace CreatorApplication.DAL
                 .ThenInclude(ti => ti.IngredientsList)
                 .ThenInclude(ti => ti.Ingredient)
                 .FirstOrDefaultAsync(x => x.Id == id);
-                
+
+            Common.Guards.EntityIsNotNull<RecipeVm>(entity, id);
+
             RecipeVm recipeVm = new RecipeVm()
             {
                 Method = entity.Method,
@@ -91,6 +98,8 @@ namespace CreatorApplication.DAL
                                                  .ThenInclude(ti => ti.IngredientsList)
                                                  .ThenInclude(ti => ti.Ingredient)
                                                  .FirstOrDefault(x => x.Id == id);
+
+            Common.Guards.EntityIsNotNull<Recipe>(entity, id);
 
             //find recipeingredientslist id
             RecipeIngredientsList recipeIngredientsList = _appDbContext.RecipeIngredientsLists
@@ -113,8 +122,12 @@ namespace CreatorApplication.DAL
 
         public async Task<bool> Update(RecipeUpdateVm recipeUpdateVm)
         {
+            Guards.IngredientListNotEmpty<RecipeIngredientsAddVm>(recipeUpdateVm.Ingredients);
+
             Recipe entity = _appDbContext.Recipes
                 .FirstOrDefault(x => x.Id == recipeUpdateVm.Id);
+
+            Common.Guards.EntityIsNotNull<RecipeUpdateVm>(entity, recipeUpdateVm.Id);
 
             entity.Title = recipeUpdateVm.Title;
             entity.Method = recipeUpdateVm.Method;
