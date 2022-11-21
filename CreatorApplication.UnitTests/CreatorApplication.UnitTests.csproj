@@ -21,14 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="RecipeDALTests\Add\" />
-    <Folder Include="RecipeDALTests\Delete\" />
-    <Folder Include="RecipeDALTests\GetAll\" />
-    <Folder Include="RecipeDALTests\GetById\" />
-    <Folder Include="RecipeDALTests\Update\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CreatorApplication\CreatorApplication.csproj" />
   </ItemGroup>
 
