@@ -42,7 +42,9 @@ namespace CreatorApplication.UnitTests
             var recipe = new Recipe
             {
                 Title = "Test recipe",
-                Method = "Test method for test recipe"
+                Method = "Test method for test recipe",
+                RecipeIngredientsListId = recipeIngredientsList.Id,
+
             };
             dbContext.Recipes.Add(recipe);
             dbContext.SaveChanges();
